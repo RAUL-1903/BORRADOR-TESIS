@@ -1,373 +1,180 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asistente Virtual Escolar</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
 
-:root {
-    --primary-color: #007BFF;
-    --secondary-color: #6c757d;
-    --background-color: #f4f7f6;
-    --surface-color: #ffffff;
-    --text-color: #333;
-    --error-color: #dc3545;
-    --success-color: #28a745;
-    --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
+    <div id="login-container" class="container active">
+        <div class="login-box">
+            <h1><i class="fas fa-school"></i> Asistente Virtual</h1>
+            <p>Bienvenido al portal de la I.E.P. Rosa de Lima</p>
+            <form id="login-form">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="username" placeholder="Usuario" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" placeholder="Contraseña" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-user-shield"></i>
+                    <select id="role" required>
+                        <option value="" disabled selected>Seleccionar Rol</option>
+                        <option value="admin">Administrador</option>
+                        <option value="docente">Docente</option>
+                        <option value="estudiante">Estudiante</option>
+                    </select>
+                </div>
+                <button type="submit">Ingresar</button>
+                <p id="login-error" class="error-message"></p>
+            </form>
+        </div>
+    </div>
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+    <div id="teacher-dashboard" class="container">
+        <header>
+            <h1><i class="fas fa-chalkboard-teacher"></i> Panel del Docente</h1>
+            <button id="logout-btn"><i class="fas fa-sign-out-alt"></i> Salir</button>
+        </header>
+        <main>
+            <div class="news-panel">
+                <h2><i class="fas fa-bullhorn"></i> Noticias del Colegio</h2>
+                <p>¡Bienvenidos al nuevo año escolar 2025! Les deseamos un ciclo lleno de aprendizaje y éxito.</p>
+            </div>
+            <div class="course-controls">
+                <h3>Mis Cursos</h3>
+                <button id="add-course-btn"><i class="fas fa-plus-circle"></i> Crear Nuevo Curso</button>
+            </div>
+            <div id="course-grid" class="grid">
+                </div>
+        </main>
+    </div>
 
-body {
-    font-family: 'Poppins', sans-serif;
-    background-color: var(--background-color);
-    color: var(--text-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-}
-
-/* ======================= CONTENEDORES PRINCIPALES ======================= */
-.container {
-    width: 100%;
-    max-width: 1200px;
-    margin: auto;
-    padding: 2rem;
-    display: none; /* Ocultos por defecto */
-}
-
-.container.active {
-    display: block;
-}
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #ddd;
-}
-
-header h1 {
-    color: var(--primary-color);
-}
-
-/* ======================= LOGIN ======================= */
-#login-container {
-    max-width: 450px;
-}
-
-.login-box {
-    background: var(--surface-color);
-    padding: 2.5rem;
-    border-radius: 10px;
-    box-shadow: var(--shadow);
-    text-align: center;
-}
-
-.login-box h1 {
-    margin-bottom: 0.5rem;
-    color: var(--primary-color);
-}
-
-.login-box p {
-    margin-bottom: 1.5rem;
-    color: var(--secondary-color);
-}
-
-.input-group {
-    position: relative;
-    margin-bottom: 1.5rem;
-}
-
-.input-group i {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #aaa;
-}
-
-input[type="text"],
-input[type="password"],
-select {
-    width: 100%;
-    padding: 12px 12px 12px 40px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-family: 'Poppins', sans-serif;
-    font-size: 1rem;
-}
-
-button {
-    width: 100%;
-    padding: 12px;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1.1rem;
-    font-weight: 600;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-.error-message {
-    color: var(--error-color);
-    margin-top: 1rem;
-    height: 1em;
-}
+    <div id="course-view" class="container">
+         <header>
+            <button id="back-to-dashboard-btn"><i class="fas fa-arrow-left"></i> Volver al Panel</button>
+            <h1 id="course-view-title"></h1>
+            <button id="logout-btn-course-view"><i class="fas fa-sign-out-alt"></i> Salir</button>
+        </header>
+        <main>
+            <div class="course-actions">
+                <button id="create-task-btn" class="action-btn"><i class="fas fa-tasks"></i> Crear Tarea</button>
+                <button id="create-quiz-btn" class="action-btn"><i class="fas fa-question-circle"></i> Crear Preguntas Veloces</button>
+            </div>
+            <div id="course-content">
+                <h2>Actividades Recientes</h2>
+                <ul id="activity-list"></ul>
+            </div>
+        </main>
+    </div>
 
 
-/* ======================= PANELES Y CURSOS ======================= */
-.news-panel {
-    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin-bottom: 2rem;
-    border-left: 5px solid var(--primary-color);
-}
-
-.course-controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
-}
-
-.course-card {
-    background-color: var(--surface-color);
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-}
-
-.course-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-}
-
-.card-banner {
-    height: 140px;
-    background-size: cover;
-    background-position: center;
-    position: relative;
-}
-
-.card-content {
-    padding: 1rem;
-}
-
-.card-content h3 {
-    margin-bottom: 1rem;
-}
-
-.card-actions {
-    display: flex;
-    gap: 0.5rem;
-}
-
-.card-actions button {
-    width: auto;
-    padding: 5px 10px;
-    font-size: 0.8rem;
-    border-radius: 5px;
-}
-
-.edit-btn { background-color: var(--success-color); }
-.edit-btn:hover { background-color: #218838; }
-.delete-btn { background-color: var(--error-color); }
-.delete-btn:hover { background-color: #c82333; }
+    <div id="student-dashboard" class="container">
+        <header>
+            <h1><i class="fas fa-user-graduate"></i> Panel del Estudiante</h1>
+            <button id="logout-btn-student"><i class="fas fa-sign-out-alt"></i> Salir</button>
+        </header>
+        <main>
+            <div id="student-selection">
+                <h2>Selecciona tu Nivel y Grado</h2>
+                <select id="student-level">
+                    <option value="primaria">Primaria</option>
+                    <option value="secundaria">Secundaria</option>
+                </select>
+                <select id="student-grade">
+                    <option value="1">1er Grado</option>
+                    <option value="2">2do Grado</option>
+                    <option value="3">3er Grado</option>
+                    <option value="4">4to Grado</option>
+                    <option value="5">5to Grado</option>
+                </select>
+                <button id="confirm-student-details">Confirmar</button>
+            </div>
+            <div id="student-content" class="hidden">
+                 <div class="news-panel">
+                    <h2><i class="fas fa-bullhorn"></i> Noticias del Colegio</h2>
+                    <p>¡Bienvenidos al nuevo año escolar 2025! Les deseamos un ciclo lleno de aprendizaje y éxito.</p>
+                </div>
+                <h2><i class="fas fa-bell"></i> Mis Notificaciones Pendientes</h2>
+                <ul id="student-notifications">
+                    </ul>
+            </div>
+        </main>
+    </div>
+    
+    <div id="admin-dashboard" class="container">
+        <header>
+            <h1><i class="fas fa-user-shield"></i> Panel de Administrador</h1>
+            <button id="logout-btn-admin"><i class="fas fa-sign-out-alt"></i> Salir</button>
+        </header>
+        <main>
+            <h2>Gestión del Sistema</h2>
+            <p>Aquí se mostrarían opciones para administrar usuarios, noticias y configuraciones generales.</p>
+        </main>
+    </div>
 
 
-/* ======================= VISTA DE CURSO Y ACTIVIDADES ======================= */
-#course-view header {
-    flex-wrap: wrap;
-    gap: 1rem;
-}
+    <div id="course-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 id="modal-title">Crear Nuevo Curso</h2>
+            <form id="course-form">
+                <input type="hidden" id="course-id">
+                <label for="course-name">Nombre del Curso:</label>
+                <input type="text" id="course-name" required>
+                <label for="course-image">URL de la Imagen (opcional):</label>
+                <input type="text" id="course-image" placeholder="https://ejemplo.com/imagen.jpg">
+                <label for="course-color">Color de la Tarjeta:</label>
+                <input type="color" id="course-color" value="#007bff">
+                <button type="submit">Guardar Curso</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="task-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Crear Notificación de Tarea</h2>
+            <form id="task-form">
+                <label for="task-title">Tema de la Tarea:</label>
+                <input type="text" id="task-title" required>
+                <label for="task-due-date">Fecha de Entrega:</label>
+                <input type="date" id="task-due-date" required>
+                <label for="task-due-time">Hora de Entrega:</label>
+                <input type="time" id="task-due-time" required>
+                <button type="submit">Crear Tarea</button>
+            </form>
+        </div>
+    </div>
 
-.course-actions {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-}
-.action-btn {
-    flex-grow: 1;
-    padding: 1rem;
-    font-size: 1.2rem;
-}
+    <div id="quiz-modal" class="modal">
+        <div class="modal-content">
+             <span class="close-btn">&times;</span>
+            <h2>Crear Preguntas Veloces</h2>
+            <form id="quiz-topic-form">
+                <label for="quiz-topic">Tema para las Preguntas:</label>
+                <input type="text" id="quiz-topic" placeholder="Ej: La Célula, Historia del Perú" required>
+                <button type="submit">Generar Preguntas</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="quiz-review-modal" class="modal">
+        <div class="modal-content wide">
+             <span class="close-btn">&times;</span>
+            <h2>Revisar y Confirmar Quiz</h2>
+            <p>Revisa las preguntas generadas por la IA. Puedes editarlas si es necesario antes de confirmar.</p>
+            <div id="quiz-review-area"></div>
+            <button id="confirm-quiz-btn">Confirmar y Crear Quiz</button>
+        </div>
+    </div>
 
-#activity-list, #student-notifications {
-    list-style: none;
-    padding: 0;
-}
-
-#activity-list li, #student-notifications li {
-    background-color: var(--surface-color);
-    padding: 1rem;
-    border-radius: 5px;
-    margin-bottom: 1rem;
-    border-left: 4px solid var(--secondary-color);
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-#activity-list li.task { border-color: #ffc107; }
-#activity-list li.quiz { border-color: #17a2b8; }
-
-#activity-list li i, #student-notifications li i {
-    font-size: 1.5rem;
-    color: var(--text-color);
-}
-#activity-list li.task i { color: #ffc107; }
-#activity-list li.quiz i { color: #17a2b8; }
-
-
-/* ======================= PANEL DE ESTUDIANTE ======================= */
-#student-selection {
-    background: var(--surface-color);
-    padding: 2rem;
-    border-radius: 8px;
-    text-align: center;
-    max-width: 500px;
-    margin: 2rem auto;
-}
-
-#student-selection select {
-    display: block;
-    margin: 1rem auto;
-    width: 80%;
-    padding: 10px;
-}
-
-#student-selection button {
-    width: 80%;
-}
-
-.hidden {
-    display: none;
-}
-
-
-/* ======================= MODALES ======================= */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.5);
-    animation: fadeIn 0.3s;
-}
-
-@keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: 10% auto;
-    padding: 2rem;
-    border: 1px solid #888;
-    width: 90%;
-    max-width: 500px;
-    border-radius: 10px;
-    position: relative;
-    animation: slideIn 0.3s;
-}
-
-.modal-content.wide {
-    max-width: 800px;
-}
-
-@keyframes slideIn {
-    from {top: -100px; opacity: 0;}
-    to {top: 0; opacity: 1;}
-}
-
-
-.close-btn {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.close-btn:hover,
-.close-btn:focus {
-    color: black;
-}
-
-#course-form, #task-form, #quiz-topic-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-#course-form input[type="text"],
-#course-form input[type="color"],
-#task-form input,
-#quiz-topic-form input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-#quiz-review-area {
-    max-height: 50vh;
-    overflow-y: auto;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    border: 1px solid #ddd;
-    padding: 1rem;
-    border-radius: 5px;
-}
-
-.quiz-question-review {
-    margin-bottom: 1.5rem;
-}
-.quiz-question-review p {
-    font-weight: bold;
-}
-.quiz-question-review .alternatives {
-    padding-left: 20px;
-}
-
-
-/* ======================= BOTONES DE SALIR Y AUXILIARES ======================= */
-#logout-btn, #logout-btn-course-view, #logout-btn-student, #logout-btn-admin, #back-to-dashboard-btn {
-    background: none;
-    border: 1px solid var(--secondary-color);
-    color: var(--secondary-color);
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-}
-
-#logout-btn:hover, #logout-btn-course-view:hover, #logout-btn-student:hover, #logout-btn-admin:hover, #back-to-dashboard-btn:hover {
-    background: var(--secondary-color);
-    color: white;
-}
+    <script src="script.js"></script>
+</body>
+</html>
