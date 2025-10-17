@@ -258,22 +258,63 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // "IA" para generar preguntas (simulación)
-    const generateAIQuestions = (topic) => {
-        const questions = [];
-        for (let i = 1; i <= 15; i++) {
-            questions.push({
-                text: `Pregunta ${i} sobre ${topic}`,
-                alternatives: [
-                    `Respuesta A para la pregunta ${i}`,
-                    `Respuesta B para la pregunta ${i}`,
-                    `Respuesta C para la pregunta ${i}`,
-                    `Respuesta D para la pregunta ${i}`
-                ],
-                correct: 0 // La primera es la correcta por defecto
-            });
-        }
-        return questions;
+// =================================================================================
+// REEMPLAZA ESTA FUNCIÓN EN TU ARCHIVO SCRIPT.JS
+// =================================================================================
+
+// "IA" para generar preguntas (simulación con banco de preguntas interno)
+const generateAIQuestions = (topic) => {
+    // Normalizamos el input del usuario para que sea fácil de comparar
+    const formattedTopic = topic.toLowerCase().trim().replace(/ /g, '_');
+
+    // BANCO DE PREGUNTAS INTERNO
+    const questionBank = {
+        'historia_del_peru': [
+            {
+                text: "¿Quién es conocido como 'El Brujo de los Andes'?",
+                alternatives: ["Miguel Grau", "Francisco Bolognesi", "Andrés Avelino Cáceres", "Túpac Amaru II"],
+                correct: 2 // Andrés Avelino Cáceres
+            },
+            {
+                text: "¿Cuál de las siguientes culturas pre-incas es famosa por sus geoglifos en el desierto?",
+                alternatives: ["Cultura Moche", "Cultura Chavín", "Cultura Nazca", "Cultura Tiahuanaco"],
+                correct: 2 // Cultura Nazca
+            },
+            {
+                text: "¿Quién proclamó la Independencia del Perú el 28 de Julio de 1821?",
+                alternatives: ["Simón Bolívar", "José de San Martín", "Antonio José de Sucre", "Ramón Castilla"],
+                correct: 1 // José de San Martín
+            },
+            {
+                text: "¿Cuál era la capital del Imperio Incaico?",
+                alternatives: ["Machu Picchu", "Lima", "Cajamarca", "Cusco"],
+                correct: 3 // Cusco
+            },
+            {
+                text: "¿La Guerra del Pacífico (1879-1883) fue un conflicto entre la alianza de Perú y Bolivia contra qué país?",
+                alternatives: ["Ecuador", "Chile", "Colombia", "Brasil"],
+                correct: 1 // Chile
+            }
+        ]
+        // PUEDES AGREGAR MÁS TEMAS AQUÍ
+        // 'matematicas': [ { ...pregunta 1... }, { ...pregunta 2... } ],
     };
+
+    // Buscamos si el tema existe en nuestro banco de preguntas
+    if (questionBank[formattedTopic]) {
+        return questionBank[formattedTopic];
+    } else {
+        // Si no encontramos el tema, mostramos una alerta y devolvemos preguntas genéricas
+        alert(`No se encontraron preguntas para el tema "${topic}". Se mostrarán preguntas de ejemplo.`);
+        return [
+            { text: `Pregunta 1 sobre ${topic}`, alternatives: ["A", "B", "C", "D"], correct: 0 },
+            { text: `Pregunta 2 sobre ${topic}`, alternatives: ["A", "B", "C", "D"], correct: 0 },
+            { text: `Pregunta 3 sobre ${topic}`, alternatives: ["A", "B", "C", "D"], correct: 0 },
+            { text: `Pregunta 4 sobre ${topic}`, alternatives: ["A", "B", "C", "D"], correct: 0 },
+            { text: `Pregunta 5 sobre ${topic}`, alternatives: ["A", "B", "C", "D"], correct: 0 }
+        ];
+    }
+};
     
     // Generar preguntas al enviar el tema
     quizTopicForm.addEventListener('submit', (e) => {
